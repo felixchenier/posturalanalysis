@@ -53,9 +53,9 @@ class MainWindow(QtWidgets.QMainWindow):
         loadUi("static/mainWindowTabbed.ui", self)
 
         # TAB1 Buttons
-        self.openStudyButton.clicked.connect(self.findAStudySaveFile)
-        self.saveLocation.clicked.connect(self.findASaveFile)
-        self.browse.clicked.connect(self.findADataFile)
+        self.openStudyButton.clicked.connect(self.ui_select_study_save_file)
+        self.saveLocation.clicked.connect(self.ui_select_save_file)
+        self.browse.clicked.connect(self.ui_select_data_file)
 
         # TAB2 Buttons
         self.save.clicked.connect(self.SaveButton)
@@ -78,8 +78,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Initial Values
         self.rowSB.setValue(3)
 
-    def plotData(self, dt: Data):
-        self.populateCanvas(dt)
+    def plot_data(self, dt: Data):
+        self.populate_canvas(dt)
         self.toolbar = NavigationToolbar(self.sc, self)
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.toolbar)
@@ -87,20 +87,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.displayGB.setLayout(self.layout)
         self.show()
 
-    def populateCanvas(self, dt: Data):
+    def populate_canvas(self, dt: Data):
         self.sc = MplCanvas(self, width=5, height=4, dpi=100)
         df = dt.ts.to_dataframe()
         df.plot(ax=self.sc.axes)
         self.AddEventsToCanvas(dt)
 
-    def findADataFile(self):
+    def ui_select_data_file(self):
         if self.filename.text() == "":
             fname = QFileDialog.getOpenFileName(
                 self, "Open file", "", "Excel files (*.xlsx *.xlsm *.xls)"
             )
             self.filename.setText(fname[0])
             self.data = DataController.initialiseData(fname[0])
-            self.plotData(self.data)
+            self.plot_data(self.data)
         else:
             fname = QFileDialog.getOpenFileName(
                 self, "Open file", "", "Excel files (*.xlsx *.xlsm *.xls)"
@@ -114,13 +114,13 @@ class MainWindow(QtWidgets.QMainWindow):
                     "Erreur - Impossible d'ouvrir le document sélectionné"
                 )
 
-    def findASaveFile(self):
+    def ui_select_save_file(self):
         fname = QFileDialog.getOpenFileName(
             self, "Open file", "", "Excel files (*.xlsx)"
         )
         self.savefilename.setText(fname[0])
 
-    def findAStudySaveFile(self):
+    def ui_select_study_save_file(self):
         fname = QFileDialog.getOpenFileName(
             self, "Open file", "", "Excel files (*.xlsx)"
         )
@@ -146,7 +146,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.Phase1Start.setDefault(False)
         self.maxBtn.setDefault(False)
 
-        self.populateCanvas(dt)
+        self.populate_canvas(dt)
         self.toolbar = NavigationToolbar(self.sc, self)
         self.layout.addWidget(self.toolbar)
         self.layout.addWidget(self.sc)
