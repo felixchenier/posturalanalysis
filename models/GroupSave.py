@@ -21,7 +21,7 @@ def FormatGroupSaveFile(dt: Data, path: str):
     while (pageNum <= NUMBER_OF_PAGES):
         columnToWrite = 1
         sheet = getExpectedGroupSheetName(dt, pageNum)
-#        writer.write_cells(cells='', sheet_name=sheet)
+        writer.write_cells(cells='', sheet_name=sheet)
 
         dataFormat = dt.GroupSaveDataFormat(pageNum)
         size = len(dataFormat)

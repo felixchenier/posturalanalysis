@@ -425,7 +425,7 @@ def FormatSaveFile(dt: Data, path: str):
     pageNum = 1
     while (pageNum < 11):
         sheet = getExpectedSheetName(dt, pageNum)
-        # writer.write_cells(cells='', sheet_name=sheet)
+        writer.write_cells(cells='', sheet_name=sheet)
 
         df = pd.DataFrame(columns=[AP, '', '', '', ML])
         df.to_excel(writer, sheet_name=sheet, startcol=ECART + 1,
